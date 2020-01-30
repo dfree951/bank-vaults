@@ -14,6 +14,8 @@ spec:
       annotations:
         vault.security.banzaicloud.io/vault-addr: "https://vault:8200"
         vault.security.banzaicloud.io/vault-tls-secret: vault-tls
+        # TODO move this to another example
+        vault.security.banzaicloud.io/vault-env-daemon: "true"
         # vault.security.banzaicloud.io/vault-skip-verify: "false"
         # vault.security.banzaicloud.io/vault-role: "default"
         # vault.security.banzaicloud.io/vault-path: "kubernetes"
@@ -37,6 +39,11 @@ spec:
         env:
         - name: AWS_SECRET_ACCESS_KEY
           value: vault:secret/data/accounts/aws#AWS_SECRET_ACCESS_KEY
+        # TODO move this to another example
+        - name: MYSQL_USERNAME
+          value: vault:database/creds/my-role#username
+        - name: MYSQL_PASSWORD
+          value: vault:database/creds/my-role#password
         resources:
           limits:
             memory: "128Mi"

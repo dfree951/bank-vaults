@@ -5,7 +5,7 @@ metadata:
 spec:
   size: 1
   image: vault:1.3.1
-  bankVaultsImage: banzaicloud/bank-vaults:latest
+  bankVaultsImage: banzaicloud/bank-vaults:master
 
   # Common annotations for all created resources
   annotations:
@@ -120,6 +120,10 @@ spec:
         rules: path "pki/*" {
           capabilities = ["create", "read", "update", "delete", "list"]
           }
+      - name: allow_database
+        rules: path "database/creds/*" {
+          capabilities = ["read"]
+          }
     auth:
       - type: kubernetes
         roles:
@@ -127,7 +131,7 @@ spec:
           - name: default
             bound_service_account_names: ["default", "vault-secrets-webhook", "vault"]
             bound_service_account_namespaces: ["default", "vswh"]
-            policies: ["allow_secrets", "allow_pki"]
+            policies: ["allow_secrets", "allow_pki", "allow_database"]
             ttl: 1h
 
     secrets:
